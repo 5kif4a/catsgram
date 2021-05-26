@@ -71,10 +71,10 @@
         <p>
           <strong>
             <router-link
-              :to="{name: 'Profile', params: {user_id: post.user_id}}"
+              :to="{name: 'Profile', params: {user_id: comment.user_id}}"
               class="post__info__comment__user_link"
             >
-              {{ post.username }}
+              {{ comment.username }}
             </router-link>
           </strong>
           {{ comment.content }}
@@ -159,6 +159,7 @@ export default {
     },
   },
   mounted() {
+    this.liked = this.$props.post.liked?.includes(this.current_user_id)
     this.date = format(new Date(this.post.createdAt), 'dd MMMM yyyy HH:mm')
   }
 }

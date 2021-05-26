@@ -16,7 +16,7 @@ export default createStore({
       state.user = payload
     },
     setPosts(state, payload) {
-      state.posts = transformObjectToArray(payload)
+      state.posts = payload ? transformObjectToArray(payload): []
     },
     setUserPosts(state, payload) {
       const {rawPosts, user_id} = payload
