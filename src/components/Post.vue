@@ -2,8 +2,8 @@
   <div class="post">
     <div class="post__header">
       <v-avatar
-        class="post__header__avatar"
-        size="24"
+          class="post__header__avatar"
+          size="24"
       >
         <img :src="post.user_avatar">
 
@@ -11,7 +11,7 @@
       <p class="post__header__username">
         <strong>
           <router-link
-            :to="{name: 'Profile', params: {user_id: post.user_id}}"
+              :to="{name: 'Profile', params: {user_id: post.user_id}}"
           >
             {{ post.username }}
           </router-link>
@@ -20,27 +20,27 @@
     </div>
     <div class="post__content">
       <div
-        v-if="image_loader"
-        class="post__content__loader">
+          v-if="image_loader"
+          class="post__content__loader">
         <loader></loader>
       </div>
 
       <img
-        :src="post.image_url"
-        class="post__content__img"
-        @load="onImageLoad">
+          :src="post.image_url"
+          class="post__content__img"
+          @load="onImageLoad">
     </div>
 
     <div class="post__controls">
       <v-icon
-        class="post__controls__like"
-        @click="putLike"
+          class="post__controls__like"
+          @click="putLike"
       >
         {{ liked ? "mdi-heart" : "mdi-heart-outline" }}
       </v-icon>
       <v-icon
-        class="post__controls__comment"
-        @click="leaveComment"
+          class="post__controls__comment"
+          @click="leaveComment"
       >
         mdi-comment-outline
       </v-icon>
@@ -54,8 +54,8 @@
       <p class="post__info__body">
         <strong>
           <router-link
-            :to="{name: 'Profile', params: {user_id: post.user_id}}"
-            class="post__info__body__user_link"
+              :to="{name: 'Profile', params: {user_id: post.user_id}}"
+              class="post__info__body__user_link"
           >
             {{ post.username }}
           </router-link>
@@ -64,15 +64,15 @@
       </p>
 
       <div
-        class="post__info__comment"
-        v-for="comment in post?.comments"
-        :key="comment.createdAt"
+          v-for="comment in post?.comments"
+          :key="comment.createdAt"
+          class="post__info__comment"
       >
         <p>
           <strong>
             <router-link
-              :to="{name: 'Profile', params: {user_id: comment.user_id}}"
-              class="post__info__comment__user_link"
+                :to="{name: 'Profile', params: {user_id: comment.user_id}}"
+                class="post__info__comment__user_link"
             >
               {{ comment.username }}
             </router-link>
@@ -133,22 +133,22 @@ export default {
         const current_user_id = this.current_user_id
 
         postRef
-          .once('value')
-          .then(snapshot => {
-            const prevPostData = snapshot.val()
+            .once('value')
+            .then(snapshot => {
+              const prevPostData = snapshot.val()
 
-            const liked = prevPostData?.liked
-              ? [...prevPostData.liked, current_user_id]
-              : [current_user_id]
+              const liked = prevPostData?.liked
+                  ? [...prevPostData.liked, current_user_id]
+                  : [current_user_id]
 
-            const newPostData = {
-              ...prevPostData,
-              likes: prevPostData.likes + 1,
-              liked
-            }
+              const newPostData = {
+                ...prevPostData,
+                likes: prevPostData.likes + 1,
+                liked
+              }
 
-            postRef.update(newPostData)
-          })
+              postRef.update(newPostData)
+            })
 
         this.likes += 1
         this.liked = true

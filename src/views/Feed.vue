@@ -1,21 +1,21 @@
 <template>
   <div class="feed">
     <div
-      v-if="isFetching"
-      class="loader"
+        v-if="isFetching"
+        class="loader"
     >
       <loader></loader>
     </div>
 
     <template v-else>
       <div
-        v-if="posts.length"
-        class="post-list"
+          v-if="posts.length"
+          class="post-list"
       >
         <post
-          v-for="post in posts"
-          :key="post.id"
-          :post="post"
+            v-for="post in posts"
+            :key="post.id"
+            :post="post"
         />
       </div>
       <div v-else>
@@ -25,12 +25,12 @@
 
     <div class="info">
       <div
-        v-if="isAuthenticated"
-        class="info__user"
+          v-if="isAuthenticated"
+          class="info__user"
       >
         <v-avatar
-          class="info__user__avatar"
-          size="48"
+            class="info__user__avatar"
+            size="48"
         >
           <img :src="user?.photoURL">
         </v-avatar>
@@ -82,10 +82,10 @@ export default {
       this.isFetching = true
 
       postsRef.on('value',
-        snapshot => {
-          this.$store.commit('setPosts', snapshot.val())
-          this.isFetching = false
-        }
+          snapshot => {
+            this.$store.commit('setPosts', snapshot.val())
+            this.isFetching = false
+          }
       )
     }
   },

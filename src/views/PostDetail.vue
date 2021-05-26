@@ -1,7 +1,7 @@
 <template>
   <div
-    v-if="!post"
-    class="loader"
+      v-if="!post"
+      class="loader"
   >
     <loader></loader>
   </div>
@@ -12,8 +12,8 @@
     <div class="post_detail__content">
       <div class="post_detail__content__user">
         <v-avatar
-          class="post_detail__content__user__avatar"
-          size="48"
+            class="post_detail__content__user__avatar"
+            size="48"
         >
           <img :src="post?.user_avatar">
         </v-avatar>
@@ -22,33 +22,33 @@
       </div>
       <div class="post_detail__content__comments">
         <post-comment
-          v-if="post?.body"
-          :user_id="post.user_id"
-          :content="post.body"
-          :user_avatar="post.user_avatar"
-          :username="post.username"
+            v-if="post?.body"
+            :content="post.body"
+            :user_avatar="post.user_avatar"
+            :user_id="post.user_id"
+            :username="post.username"
         />
 
         <post-comment
-          v-for="comment in post.comments"
-          :key="comment.user_id"
-          :user_id="comment.user_id"
-          :content="comment.content"
-          :user_avatar="comment.user_avatar"
-          :username="comment.username"
+            v-for="comment in post.comments"
+            :key="comment.user_id"
+            :content="comment.content"
+            :user_avatar="comment.user_avatar"
+            :user_id="comment.user_id"
+            :username="comment.username"
         />
       </div>
 
       <div class="post_detail__content__controls">
         <v-icon
-          class="post_detail__content__controls__like"
-          @click="putLike"
+            class="post_detail__content__controls__like"
+            @click="putLike"
         >
           {{ liked ? "mdi-heart" : "mdi-heart-outline" }}
         </v-icon>
         <v-icon
-          class="post_detail__content__controls__comment"
-          @click="leaveComment"
+            class="post_detail__content__controls__comment"
+            @click="leaveComment"
         >
           mdi-comment-outline
         </v-icon>
@@ -64,13 +64,13 @@
 
       <div class="post_detail__content__form">
         <input
-          ref="input"
-          v-model="commentBody"
-          :disabled="isCommentPublishing || !isAuthenticated"
-          class="post_detail__content__form__input"
-          maxlength="200"
-          placeholder="Leave a comment"
-          @keyup.enter="publishComment"
+            ref="input"
+            v-model="commentBody"
+            :disabled="isCommentPublishing || !isAuthenticated"
+            class="post_detail__content__form__input"
+            maxlength="200"
+            placeholder="Leave a comment"
+            @keyup.enter="publishComment"
         >
       </div>
     </div>
@@ -120,22 +120,22 @@ export default {
         const postRef = db.ref('/posts/' + post_id)
 
         postRef
-          .once('value')
-          .then(snapshot => {
-            const prevPostData = snapshot.val()
+            .once('value')
+            .then(snapshot => {
+              const prevPostData = snapshot.val()
 
-            const liked = prevPostData?.liked
-              ? [...prevPostData.liked, current_user_id]
-              : [current_user_id]
+              const liked = prevPostData?.liked
+                  ? [...prevPostData.liked, current_user_id]
+                  : [current_user_id]
 
-            const newPostData = {
-              ...prevPostData,
-              likes: prevPostData.likes + 1,
-              liked
-            }
+              const newPostData = {
+                ...prevPostData,
+                likes: prevPostData.likes + 1,
+                liked
+              }
 
-            postRef.update(newPostData)
-          })
+              postRef.update(newPostData)
+            })
 
         this.likes += 1
         this.liked = true
@@ -182,14 +182,14 @@ export default {
     const postDetailRef = db.ref('/posts/' + post_id)
 
     postDetailRef.on('value',
-      snapshot => {
-        const post = snapshot.val()
-        this.post = post
-        this.likes = post.likes
+        snapshot => {
+          const post = snapshot.val()
+          this.post = post
+          this.likes = post.likes
 
-        this.liked = post.liked?.includes(this.current_user_id)
-        this.date = format(new Date(post.createdAt), 'dd MMMM yyyy HH:mm')
-      }
+          this.liked = post.liked?.includes(this.current_user_id)
+          this.date = format(new Date(post.createdAt), 'dd MMMM yyyy HH:mm')
+        }
     )
   }
 }

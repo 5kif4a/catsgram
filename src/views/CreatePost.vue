@@ -2,19 +2,19 @@
   <div class="create_post">
     <div class="form">
       <label
-        class="form__label"
-        for="content"
+          class="form__label"
+          for="content"
       >
         Post content
       </label>
 
       <textarea
-        id="content"
-        v-model="body"
-        class="form__textarea"
-        maxlength="200"
-        rows="5"
-        :disabled="isPublishing"
+          id="content"
+          v-model="body"
+          :disabled="isPublishing"
+          class="form__textarea"
+          maxlength="200"
+          rows="5"
       >
       </textarea>
 
@@ -22,13 +22,13 @@
         <div class="form__file__controls">
           <label class="form__file__controls__label" for="img">
             <input
-              id="img"
-              ref="pic"
-              accept="image/*"
-              style="display: none"
-              type="file"
-              @change="handleChangePicture"
-              :disabled="isPublishing"
+                id="img"
+                ref="pic"
+                :disabled="isPublishing"
+                accept="image/*"
+                style="display: none"
+                type="file"
+                @change="handleChangePicture"
             >
             <v-icon>
               mdi-image
@@ -38,13 +38,13 @@
           </label>
 
           <v-btn
-            v-if="picture"
-            elevation="2"
-            icon
-            size="32"
-            style="margin: 0 16px"
-            @click="handleClearPicture"
-            :disabled="isPublishing"
+              v-if="picture"
+              :disabled="isPublishing"
+              elevation="2"
+              icon
+              size="32"
+              style="margin: 0 16px"
+              @click="handleClearPicture"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -57,9 +57,9 @@
         <p v-if="picture" class="form__file__name">{{ picture.name }}</p>
 
         <v-btn
-          class="form__publish_btn"
-          @click="publishPost"
-          :disabled="isPublishing"
+            :disabled="isPublishing"
+            class="form__publish_btn"
+            @click="publishPost"
         >
           Publish post
         </v-btn>
@@ -119,32 +119,32 @@ export default {
       const uploadTask = storageRef.put(this.picture)
 
       uploadTask.on('state_changed',
-        snapshot => {
-          this.uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        },
-        error => {
-          toastr.error(error)
-          this.isPublishing = false
-        },
-        () => {
-          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            postsRef.push({
-              user_id: user.uid,
-              username: user.displayName,
-              user_avatar: user.photoURL,
-              body: this.body,
-              image_url: downloadURL,
-              createdAt: new Date().toISOString(),
-              likes: 0
-            })
-          });
+          snapshot => {
+            this.uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          },
+          error => {
+            toastr.error(error)
+            this.isPublishing = false
+          },
+          () => {
+            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              postsRef.push({
+                user_id: user.uid,
+                username: user.displayName,
+                user_avatar: user.photoURL,
+                body: this.body,
+                image_url: downloadURL,
+                createdAt: new Date().toISOString(),
+                likes: 0
+              })
+            });
 
-          this.isPublishing = false
+            this.isPublishing = false
 
-          toastr.success('Post published')
+            toastr.success('Post published')
 
-          this.$router.push('/')
-        })
+            this.$router.push('/')
+          })
     },
 
     handleChangePicture(event) {

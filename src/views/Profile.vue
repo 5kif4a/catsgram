@@ -1,20 +1,20 @@
 <template>
   <div
-    v-if="isFetching"
-    class="loader"
+      v-if="isFetching"
+      class="loader"
   >
     <loader></loader>
   </div>
 
   <div
-    v-else
-    class="profile"
+      v-else
+      class="profile"
   >
     <div class="profile__info">
       <div class="profile__info__avatar">
         <v-avatar
-          size="150"
-          style="border: 2px solid #dbdbdb"
+            size="150"
+            style="border: 2px solid #dbdbdb"
         >
           <img :src="user?.photoURL">
         </v-avatar>
@@ -34,10 +34,10 @@
         </div>
 
         <v-btn
-          v-if="isAuthenticated"
-          elevation="2"
-          style="width: fit-content"
-          @click="logout"
+            v-if="isAuthenticated && isOwner"
+            elevation="2"
+            style="width: fit-content"
+            @click="logout"
         >
           Logout
         </v-btn>
@@ -47,18 +47,18 @@
     <hr style="background: #dbdbdb"/>
 
     <div
-      v-if="user__posts.length"
-      class="profile__posts"
+        v-if="user__posts.length"
+        class="profile__posts"
     >
       <post-card
-        v-for="post in user__posts"
-        :key="post.id"
-        :post="post"
+          v-for="post in user__posts"
+          :key="post.id"
+          :post="post"
       />
     </div>
     <div
-      v-else
-      class="profile__no_posts"
+        v-else
+        class="profile__no_posts"
     >
       <h2>No posts</h2>
     </div>
@@ -86,7 +86,14 @@ export default {
   },
   computed: mapState({
     isAuthenticated: state => state.isAuthenticated,
-    user: state => state.user,
+    isOwner: function (state) {
+      return this.$route.params.user_id === state.user.uid
+    },
+    user: function (state) {
+      return this.$route.params.user_id === state.user?.uid
+          ? state.user
+          : state.other_user
+    },
     user__posts: state => state.user_posts,
     total_likes(state) {
       let likes = 0
@@ -98,6 +105,11 @@ export default {
       return likes
     },
   }),
+  watch: {
+    user() {
+      this.loadUserPosts()
+    }
+  },
   methods: {
     logout() {
       firebase.auth().signOut().then(() => {
@@ -107,38 +119,42 @@ export default {
       })
     },
     loadUserInfo() {
+      this.isFetching = true
+
       const usersRef = db.ref('/users')
 
       const {user_id} = this.$route.params
 
       usersRef
-        .orderByChild('uid')
-        .equalTo(user_id)
-        .once('value')
-        .then(snapshot => {
-          this.$store.commit('setUser', snapshot.val()[user_id])
-        })
+          .orderByChild('uid')
+          .equalTo(user_id)
+          .once('value')
+          .then(snapshot => {
+            this.$store.commit('setOtherUser', snapshot.val()[user_id])
+          })
     },
     loadUserPosts() {
+      this.isFetching = true
+
       const postsRef = db.ref('/posts/')
 
       postsRef
-        .once('value')
-        .then(snapshot => {
-          const payload = {
-            rawPosts: snapshot.val(),
-            user_id: this.$route.params.user_id
-          }
+          .once('value')
+          .then(snapshot => {
+            const payload = {
+              rawPosts: snapshot.val(),
+              user_id: this.$route.params.user_id
+            }
 
-          this.$store.commit('setUserPosts', payload)
-        })
-        .then(() => {
-          this.isFetching = false
-        })
+            this.$store.commit('setUserPosts', payload)
+          })
+          .then(() => {
+            this.isFetching = false
+          })
     }
   },
   mounted() {
-    if (this.$route.params.user_id) {
+    if (this.$route.params.user_id !== this.user?.uid) {
       this.loadUserInfo()
     }
 

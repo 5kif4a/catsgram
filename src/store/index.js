@@ -5,6 +5,7 @@ export default createStore({
   state: {
     isAuthenticated: false,
     user: null,
+    other_user: null,
     user_posts: [],
     posts: [],
   },
@@ -15,8 +16,11 @@ export default createStore({
     setUser(state, payload) {
       state.user = payload
     },
+    setOtherUser(state, payload) {
+      state.other_user = payload
+    },
     setPosts(state, payload) {
-      state.posts = payload ? transformObjectToArray(payload): []
+      state.posts = payload ? transformObjectToArray(payload) : []
     },
     setUserPosts(state, payload) {
       const {rawPosts, user_id} = payload
@@ -28,6 +32,7 @@ export default createStore({
     logout(state) {
       state.isAuthenticated = false
       state.user = null
+      state.other_user = null
       state.user_posts = []
       state.posts = []
     }

@@ -7,9 +7,9 @@
 
       <div class="container__controls">
         <v-btn
-          icon
-          plain
-          @click="handleGoToCreatePost()"
+            icon
+            plain
+            @click="handleGoToCreatePost()"
         >
           <v-icon x-large>
             mdi-plus
@@ -17,30 +17,30 @@
         </v-btn>
 
         <v-btn
-          icon
-          plain
-          @click="handleGoToFeed"
+            icon
+            plain
+            @click="handleGoToFeed"
         >
           <v-icon x-large>mdi-home</v-icon>
         </v-btn>
 
 
         <v-avatar
-          v-if="isAuthenticated"
-          class="container__controls__avatar"
-          size="24"
-          @click="handleGoToProfile"
+            v-if="isAuthenticated"
+            class="container__controls__avatar"
+            size="24"
+            @click="handleGoToProfile"
         >
           <img :src="user.photoURL">
         </v-avatar>
 
 
         <v-btn
-          v-else
-          class="container__controls__signin"
-          outlined
-          text
-          @click="handleSignIn"
+            v-else
+            class="container__controls__signin"
+            outlined
+            text
+            @click="handleSignIn"
         >
           Sign In
         </v-btn>
