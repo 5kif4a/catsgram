@@ -23,6 +23,7 @@
       <div class="post_detail__content__comments">
         <post-comment
           v-if="post?.body"
+          :user_id="post.user_id"
           :content="post.body"
           :user_avatar="post.user_avatar"
           :username="post.username"
@@ -30,7 +31,8 @@
 
         <post-comment
           v-for="comment in post.comments"
-          :key="comment.createdAt"
+          :key="comment.user_id"
+          :user_id="comment.user_id"
           :content="comment.content"
           :user_avatar="comment.user_avatar"
           :username="comment.username"
@@ -162,6 +164,7 @@ export default {
       const postCommentsRef = db.ref('/posts/' + post_id + '/comments')
 
       postCommentsRef.push({
+        user_id: this.user.uid,
         username: this.user.displayName,
         user_avatar: this.user.photoURL,
         content: this.commentBody,

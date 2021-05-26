@@ -14,6 +14,7 @@
         class="form__textarea"
         maxlength="200"
         rows="5"
+        :disabled="isPublishing"
       >
       </textarea>
 
