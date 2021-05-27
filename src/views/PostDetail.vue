@@ -213,8 +213,9 @@ export default {
 .post_detail img {
   width: 600px;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
+  background: #f1f1f1;
 }
 
 .post_detail__content {
@@ -222,6 +223,7 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
+  border-left: 2px solid #dbdbdb;
 }
 
 .post_detail__content__user {

@@ -179,6 +179,7 @@ export default {
   padding: 16px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #dbdbdb;
 }
 
 .post__header__avatar {
@@ -216,10 +217,12 @@ export default {
 .post__content__img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #f1f1f1;
 }
 
 .post__controls {
+  border-top: 1px solid #dbdbdb;
   padding: 8px 16px;
 }
 
